@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure 2FA Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--bg-color);
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .account-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .account-issuer {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .code-container {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .code {
+            font-size: 2rem;
+            font-family: monospace;
+            letter-spacing: 0.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .progress {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 2px;
+            width: 100%;
+            transition: transform 1s linear;
+            transform-origin: left;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn.delete-btn {
+            background: #dc2626;
+        }
+
+        .account-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .account-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            grid-template-columns: 1fr 1fr auto;
+            align-items: start;
+        }
+
+        .input {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .account-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .scanner-container {
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .scanner-container.active {
+            display: block;
+        }
+
+        #reader {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .scan-button {
+            background: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        #scanResult {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        #scanResult.success {
+            background: #dcfce7;
+            color: #166534;
+            display: block;
+        }
+
+        #scanResult.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .scanner-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .scanner-section h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #1e293b;
+        }
+
+        .scanner-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scanner-option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .scanner-option:hover {
+            border-color: var(--primary-color);
+            background: #f0f9ff;
+        }
+
+        .scanner-option.active {
+            border-color: var(--primary-color);
+            background: #f0f9ff;
+        }
+
+        .scanner-option i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .scanner-content {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        #reader {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .file-drop-zone {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: none;
+        }
+
+        .file-drop-zone.active {
+            display: block;
+        }
+
+        .file-drop-zone:hover {
+            border-color: var(--primary-color);
+            background: #f0f9ff;
+        }
+
+        .file-drop-zone.dragging {
+            border-color: var(--primary-color);
+            background: #f0f9ff;
+        }
+
+        #scanResult {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        #reader__dashboard_section_swaplink {
+            display: none !important;
+        }
+
+        #reader__dashboard_section_csr {
+            margin-bottom: 1.5rem !important;
+        }
+
+        #reader__dashboard_section_csr > div {
+            text-align: center !important;
+            margin-bottom: 1rem !important;
+        }
+
+        #reader__dashboard_section_csr > span {
+            background: var(--primary-color) !important;
+            color: white !important;
+            padding: 0.75rem 1.5rem !important;
+            border-radius: 6px !important;
+            cursor: pointer !important;
+            font-weight: 600 !important;
+            transition: opacity 0.2s !important;
+            border: none !important;
+            display: inline-block !important;
+        }
+
+        #reader__dashboard_section_csr > select {
+            padding: 0.75rem !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 6px !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+            max-width: 400px !important;
+            margin: 0 auto 1rem auto !important;
+            display: block !important;
+            background: white !important;
+        }
+
+        #reader__filescan_input {
+            display: none !important;
+        }
+
+        #reader__dashboard_section {
+            padding: 2rem !important;
+            background: #f8fafc !important;
+            border-radius: 12px !important;
+            margin: 1rem 0 1.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 1.5rem !important;
+        }
+
+        #reader__dashboard_section_csr {
+            background: white !important;
+            padding: 1.5rem !important;
+            border-radius: 8px !important;
+            width: 100% !important;
+            max-width: 400px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        #reader__dashboard_section_csr > div {
+            color: #475569 !important;
+            font-size: 1rem !important;
+            margin-bottom: 1.25rem !important;
+            font-weight: 500 !important;
+        }
+
+        .custom-select-wrapper {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .custom-select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+
+        #html5-qrcode-select-camera {
+            appearance: none;
+            width: 100%;
+            padding: 0.875rem 1rem !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            font-size: 0.95rem !important;
+            background: white !important;
+            cursor: pointer;
+            color: #1e293b !important;
+        }
+
+        #html5-qrcode-select-camera:hover {
+            border-color: var(--primary-color) !important;
+        }
+
+        #reader__camera_permission_button {
+            background: var(--primary-color) !important;
+            color: white !important;
+            padding: 0.875rem 1.5rem !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-weight: 600 !important;
+            transition: all 0.2s !important;
+            border: none !important;
+            margin: 0 !important;
+            font-size: 0.95rem !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+        }
+
+        #reader__camera_permission_button:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        #reader__camera_permission_button::before {
+            content: '📷';
+            margin-right: 0.5rem;
+        }
+
+        #reader__scan_region {
+            background: white !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+            margin: 1rem 0 !important;
+        }
+
+        #reader video {
+            border-radius: 12px !important;
+            max-width: 100% !important;
+        }
+
+        /* Masquer les éléments inutiles */
+        #reader__dashbord_section_swaplink,
+        #reader__header_message {
+            display: none !important;
+        }
+
+        /* Style pour le texte de statut */
+        #reader__status_span {
+            color: #475569 !important;
+            font-size: 0.95rem !important;
+            margin: 1rem 0 !important;
+            display: block !important;
+            text-align: center !important;
+        }
+
+        .scanner-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .scanner-close-btn {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scanner-close-btn:hover {
+            background: #475569;
+        }
+
+        .scanner-close-btn i {
+            font-size: 1rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Secure 2FA Manager</h1>
+        </div>
+
+        <div class="card">
+            <form id="accountForm" class="account-form">
+                <input type="text" id="serviceName" placeholder="Service Name" class="input" required>
+                <input type="text" id="issuer" placeholder="Issuer (e.g. Google, GitHub)" class="input" required>
+                <button type="submit" class="btn">Add New Account</button>
+            </form>
+        </div>
+
+        <div class="scanner-section">
+            <h2>Add New 2FA Account</h2>
+            <div class="scanner-options">
+                <div class="scanner-option" id="cameraScanOption">
+                    <i class="fas fa-camera"></i>
+                    <h3>Scan with Camera</h3>
+                    <p>Use your device's camera to scan a QR code</p>
+                </div>
+                <div class="scanner-option" id="fileScanOption">
+                    <i class="fas fa-file-image"></i>
+                    <h3>Upload Image</h3>
+                    <p>Upload a QR code image from your device</p>
+                </div>
+            </div>
+            
+            <div class="scanner-content">
+                <div id="scannerContainer" class="scanner-container">
+                    <div id="reader"></div>
+                    <div class="scanner-controls">
+                        <button id="closeScanner" class="scanner-close-btn">
+                            <i class="fas fa-times"></i>
+                            Stop Scanner
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="fileDropZone" class="file-drop-zone">
+                    <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                    <p>Drag and drop a QR code image here<br>or click to select a file</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                </div>
+                
+                <div id="scanResult"></div>
+            </div>
+        </div>
+
+        <div id="accountsList" class="account-list">
+            <!-- Les comptes seront ajoutés ici dynamiquement -->
+        </div>
+    </div>
+
+    <template id="accountTemplate">
+        <div class="card">
+            <div class="account-header">
+                <div class="account-info">
+                    <h3 class="account-name"></h3>
+                    <p class="account-issuer"></p>
+                </div>
+            </div>
+            <div class="code-container">
+                <div class="code"></div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="btn delete-btn">Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        class AccountManager {
+            constructor() {
+                this.accounts = new Map();
+                this.scanner = null;
+                this.isScanning = true; // Ajouter cette ligne
+                this.init();
+                this.setupScanner();
+            }
+
+            async init() {
+                await this.loadAccounts();
+                this.setupFormListener();
+            }
+
+            async loadAccounts() {
+                const response = await fetch('/api/accounts');
+                const accounts = await response.json();
+                accounts.forEach(account => this.addAccountToUI(account));
+            }
+
+            setupFormListener() {
+                document.getElementById('accountForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('serviceName').value;
+                    const issuer = document.getElementById('issuer').value;
+                    
+                    const response = await fetch('/api/accounts', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, issuer })
+                    });
+
+                    const account = await response.json();
+                    this.addAccountToUI({ id: account.id, name, issuer });
+                    e.target.reset();
+                });
+            }
+
+            addAccountToUI(account) {
+                const template = document.getElementById('accountTemplate');
+                const clone = template.content.cloneNode(true);
+                
+                clone.querySelector('.account-name').textContent = account.name;
+                clone.querySelector('.account-issuer').textContent = account.issuer;
+                
+                const card = clone.querySelector('.card');
+                card.id = `account-${account.id}`;
+                
+                const deleteBtn = clone.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', () => this.deleteAccount(account.id));
+
+                document.getElementById('accountsList').appendChild(clone);
+                this.startCodeUpdate(account.id);
+            }
+
+            async updateCode(accountId) {
+                const response = await fetch(`/api/accounts/${accountId}/code`);
+                const data = await response.json();
+                const card = document.getElementById(`account-${accountId}`);
+                
+                if (card) {
+                    card.querySelector('.code').textContent = data.code;
+                    const progressBar = card.querySelector('.progress-bar');
+                    const percentage = (data.timeRemaining / 30);
+                    progressBar.style.transform = `scaleX(${percentage})`;
+                }
+            }
+
+            startCodeUpdate(accountId) {
+                this.updateCode(accountId);
+                // Réinitialiser l'intervalle existant si nécessaire
+                if (this.intervals && this.intervals[accountId]) {
+                    clearInterval(this.intervals[accountId]);
+                }
+                
+                // Stocker les intervalles dans un objet
+                if (!this.intervals) this.intervals = {};
+                this.intervals[accountId] = setInterval(() => this.updateCode(accountId), 1000);
+            }
+
+            async deleteAccount(accountId) {
+                // Nettoyer l'intervalle lors de la suppression
+                if (this.intervals && this.intervals[accountId]) {
+                    clearInterval(this.intervals[accountId]);
+                    delete this.intervals[accountId];
+                }
+                
+                await fetch(`/api/accounts/${accountId}`, { method: 'DELETE' });
+                const card = document.getElementById(`account-${accountId}`);
+                card?.remove();
+            }
+
+            setupScanner() {
+                const cameraScanOption = document.getElementById('cameraScanOption');
+                const fileScanOption = document.getElementById('fileScanOption');
+                const scannerContainer = document.getElementById('scannerContainer');
+                const fileDropZone = document.getElementById('fileDropZone');
+                const fileInput = document.getElementById('fileInput');
+                const resultContainer = document.getElementById('scanResult');
+                const closeButton = document.getElementById('closeScanner');
+
+                // Gestion des options de scan
+                cameraScanOption.addEventListener('click', async () => {
+                    cameraScanOption.classList.add('active');
+                    fileScanOption.classList.remove('active');
+                    scannerContainer.classList.add('active');
+                    fileDropZone.classList.remove('active');
+
+                    // Nettoyer le scanner existant si nécessaire
+                    if (this.scanner) {
+                        await this.scanner.clear();
+                    }
+
+                    // Créer une nouvelle instance du scanner
+                    this.scanner = new Html5Qrcode("reader");
+                    
+                    try {
+                        const devices = await Html5Qrcode.getCameras();
+                        if (devices && devices.length > 0) {
+                            const firstCamera = devices[0].id;
+                            await this.scanner.start(
+                                firstCamera,
+                                {
+                                    fps: 10,
+                                    qrbox: { width: 250, height: 250 }
+                                },
+                                this.handleQrCode.bind(this),
+                                this.handleQrError.bind(this)
+                            );
+                        } else {
+                            resultContainer.textContent = 'No camera found';
+                            resultContainer.className = 'error';
+                        }
+                    } catch (err) {
+                        console.error("Error starting scanner:", err);
+                        resultContainer.textContent = 'Failed to start camera';
+                        resultContainer.className = 'error';
+                    }
+                    this.isScanning = true; // Réinitialiser l'état du scanner
+                });
+
+                closeButton.addEventListener('click', async () => {
+                    if (this.scanner) {
+                        await this.scanner.stop();
+                    }
+                    scannerContainer.classList.remove('active');
+                    cameraScanOption.classList.remove('active');
+                });
+
+                fileScanOption.addEventListener('click', async () => {
+                    fileScanOption.classList.add('active');
+                    cameraScanOption.classList.remove('active');
+                    fileDropZone.classList.add('active');
+                    scannerContainer.classList.remove('active');
+                    
+                    // Arrêter le scanner s'il est actif
+                    if (this.scanner) {
+                        try {
+                            await this.scanner.stop();
+                        } catch (err) {
+                            console.error("Error stopping scanner:", err);
+                        }
+                    }
+                });
+
+                // Gestion du drag & drop
+                fileDropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    fileDropZone.classList.add('dragging');
+                });
+
+                fileDropZone.addEventListener('dragleave', () => {
+                    fileDropZone.classList.remove('dragging');
+                });
+
+                fileDropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    fileDropZone.classList.remove('dragging');
+                    const file = e.dataTransfer.files[0];
+                    this.handleImageFile(file);
+                });
+
+                fileDropZone.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    this.handleImageFile(file);
+                });
+            }
+
+            async handleImageFile(file) {
+                try {
+                    if (this.scanner) {
+                        await this.scanner.clear();
+                    }
+                    this.scanner = new Html5Qrcode("reader");
+                    const result = await this.scanner.scanFile(file, true);
+                    await this.handleQrCode(result);
+                } catch (error) {
+                    this.handleQrError(error);
+                }
+            }
+
+            async handleQrCode(decodedText) {
+                // Éviter le traitement multiple du même QR code
+                if (!this.isScanning) return;
+                this.isScanning = false;
+
+                const resultContainer = document.getElementById('scanResult');
+                try {
+                    const otpAuthUrl = new URL(decodedText);
+                    const params = new URLSearchParams(otpAuthUrl.search);
+                    const secret = params.get('secret');
+                    const issuer = params.get('issuer') || 'Unknown';
+                    const name = otpAuthUrl.pathname.split('/').pop() || 'Unknown';
+
+                    const response = await fetch('/api/accounts', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, issuer, secret })
+                    });
+
+                    const account = await response.json();
+                    this.addAccountToUI({ id: account.id, name, issuer });
+
+                    resultContainer.textContent = 'Account added successfully!';
+                    resultContainer.className = 'success';
+                    
+                    if (this.scanner) {
+                        await this.scanner.stop();
+                        const scannerContainer = document.getElementById('scannerContainer');
+                        const cameraScanOption = document.getElementById('cameraScanOption');
+                        scannerContainer.classList.remove('active');
+                        cameraScanOption.classList.remove('active');
+                    }
+
+                } catch (error) {
+                    resultContainer.textContent = 'Invalid QR code format';
+                    resultContainer.className = 'error';
+                    this.isScanning = true; // Réactiver le scan en cas d'erreur
+                }
+            }
+
+            handleQrError(error) {
+                const resultContainer = document.getElementById('scanResult');
+                resultContainer.textContent = 'Error scanning QR code';
+                resultContainer.className = 'error';
+            }
+        }
+
+        new AccountManager();
+    </script>
+</body>
+</html>

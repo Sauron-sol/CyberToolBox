@@ -1,0 +1,18 @@
+{
+  "name": "2fa-generator",
+  "version": "1.0.0",
+  "description": "A simple 2FA code generator",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "otplib": "^12.0.1",
+    "qrcode": "^1.5.3",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "bcrypt": "^5.1.1",
+    "uuid": "^9.0.0",
+    "html5-qrcode": "^2.3.8"
+  }
+}

@@ -23,12 +23,43 @@ Un analyseur de réseaux WiFi multiplateforme.
 
 [Voir le projet →](./AnalyzeWiFi/)
 
+### 3. 2FA Generator 🆕
+Un gestionnaire moderne de codes d'authentification à double facteur.
+- Interface web intuitive
+- Scan de QR codes via webcam
+- Import de codes depuis des images
+- Stockage sécurisé local
+- Génération de codes TOTP en temps réel
+
+[Voir le projet →](./2fa-generator/)
+
+### 4. Network Scanner 🆕
+Scanner de réseau avancé avec interface graphique.
+- Découverte des hôtes sur le réseau
+- Scan de ports et détection de services
+- Cartographie réseau interactive
+- Rapports détaillés exportables
+- Support IPv4 et IPv6
+
+[Voir le projet →](./NetworkScanner/)
+
+### 5. System Monitor 🆕
+Outil de surveillance système avec détection d'anomalies.
+- Monitoring en temps réel
+- Détection de comportements suspects
+- Analyse des processus et connexions
+- Alertes configurables
+- Interface web responsive
+
+[Voir le projet →](./SystemMonitor/)
+
 ## Objectifs
 
 Cette toolbox a pour but de :
 1. Fournir des outils éducatifs pour comprendre la cybersécurité
 2. Permettre l'apprentissage pratique des concepts de sécurité
 3. Offrir une base de code pour développer ses propres outils
+4. Promouvoir les bonnes pratiques de sécurité
 
 ## Utilisation éthique
 
@@ -36,4 +67,11 @@ Ces outils sont développés à des fins éducatives uniquement. Leur utilisatio
 - Dans un cadre légal
 - Sur vos propres systèmes ou avec autorisation
 - Pour apprendre et comprendre la sécurité informatique
+
+## Contribution
+
+Les contributions sont encouragées ! Pour chaque projet :
+1. Lisez le README spécifique du projet
+2. Testez vos modifications
+3. Soumettez une Pull Request avec une description claire
 
