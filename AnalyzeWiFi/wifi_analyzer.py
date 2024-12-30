@@ -18,6 +18,51 @@ class NetworkScanner(ABC):
     def scan(self) -> List[Dict]:
         pass
 
+    def analyze_signal_strength(self, signal: int) -> str:
+        """Analyser la qualité du signal"""
+        if signal >= -50:
+            return "Excellent"
+        elif signal >= -60:
+            return "Bon"
+        elif signal >= -70:
+            return "Correct"
+        elif signal >= -80:
+            return "Faible"
+        else:
+            return "Très faible"
+
+    def get_channel_congestion(self, networks: List[Dict]) -> Dict:
+        """Analyser la congestion des canaux"""
+        channel_count = {}
+        for network in networks:
+            channel = network.get('channel', 'Unknown')
+            if channel != 'Unknown':
+                channel_count[channel] = channel_count.get(channel, 0) + 1
+        return channel_count
+
+    def get_network_recommendations(self, network: Dict) -> List[str]:
+        """Générer des recommandations basées sur l'analyse"""
+        recommendations = []
+        
+        # Analyse du signal
+        signal = network.get('signal', 0)
+        if signal < -70:
+            recommendations.append("Signal faible - Envisagez de vous rapprocher du point d'accès")
+            
+        # Analyse du canal
+        if network.get('channel'):
+            if not network.get('is_5ghz'):
+                recommendations.append("Considérez la bande 5GHz pour de meilleures performances")
+                
+        # Analyse de la sécurité
+        security = network.get('security', '').upper()
+        if 'WEP' in security or 'NONE' in security:
+            recommendations.append("URGENT: Le niveau de sécurité est insuffisant")
+        elif 'WPA' in security and 'WPA2' not in security:
+            recommendations.append("Recommandé: Passez à WPA2 ou WPA3")
+            
+        return recommendations
+
 class MacOSScanner(NetworkScanner):
     def __init__(self):
         self.ui = None
@@ -541,6 +586,20 @@ class WiFiAnalyzer:
         else:
             self.ui.print_success(f"Found {len(self.networks)} networks")
         
+        # Ajouter l'analyse de congestion
+        if self.networks:
+            channel_congestion = self.scanner.get_channel_congestion(self.networks)
+            print("\nAnalyse de la congestion des canaux:")
+            for channel, count in channel_congestion.items():
+                congestion_level = "Élevée" if count > 3 else "Moyenne" if count > 1 else "Faible"
+                print(f"Canal {channel}: {count} réseaux (Congestion: {congestion_level})")
+
+        # Ajouter des recommandations pour chaque réseau
+        for network in self.networks:
+            recommendations = self.scanner.get_network_recommendations(network)
+            if recommendations:
+                network['recommendations'] = recommendations
+
         return self.networks
 
     def _parse_security(self, security_info):
@@ -652,6 +711,15 @@ class WiFiAnalyzer:
                 report += "\n📌 Information:\n"
                 for vuln in infos:
                     report += f"ℹ️ {vuln}\n"
+        
+        # Ajouter section de recommandations au rapport
+        report += "\n🎯 Recommandations:\n"
+        report += "="*40 + "\n"
+        for network in self.networks:
+            if network.get('recommendations'):
+                report += f"\nPour le réseau {network.get('ssid', 'Unknown')}:\n"
+                for rec in network['recommendations']:
+                    report += f"→ {rec}\n"
         
         return report
 
