@@ -1,92 +1,92 @@
 # Analyze WiFi 📡
 
-Un outil multiplateforme pour analyser la sécurité des réseaux WiFi environnants.
+A cross-platform tool to analyze the security of surrounding WiFi networks.
 
-## Fonctionnalités principales
+## Main Features
 
-- 🔍 Scan des réseaux WiFi disponibles
-- 🛡️ Analyse de la sécurité des réseaux
-- 📊 Génération de rapports détaillés
-- 🔄 Support multiplateforme (Windows/Linux/MacOS)
-- 📡 Analyse des canaux et des signaux
-- 🚨 Détection des réseaux vulnérables
+- 🔍 Scan available WiFi networks
+- 🛡️ Network security analysis
+- 📊 Detailed report generation
+- 🔄 Cross-platform support (Windows/Linux/MacOS)
+- 📡 Channel and signal analysis
+- 🚨 Vulnerable network detection
 
-## Prérequis
+## Prerequisites
 
 - Python 3.6+
-- Privilèges administrateur/root pour le scan WiFi
-- Interface WiFi compatible
-- Dépendances Python (voir requirements.txt)
+- Administrator/root privileges for WiFi scanning
+- Compatible WiFi interface
+- Python dependencies (see requirements.txt)
 
 ## Installation
 
-1. Clonez le repository :
+1. Clone the repository:
    ```bash
    git clone <repository-url>
    cd AnalyzeWiFi
    ```
 
-2. Installez les dépendances :
+2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Vérifiez les permissions système :
-   - **Linux** : Exécutez avec sudo
-   - **MacOS** : Autorisez l'accès à l'interface réseau
-   - **Windows** : Exécutez en tant qu'administrateur
+3. Check system permissions:
+   - **Linux**: Run with sudo
+   - **MacOS**: Allow network interface access
+   - **Windows**: Run as administrator
 
-## Utilisation
+## Usage
 
-1. Lancez l'analyseur :
+1. Launch the analyzer:
    ```bash
    # Linux/MacOS
    sudo python wifi_analyzer.py
 
-   # Windows (cmd en admin)
+   # Windows (admin cmd)
    python wifi_analyzer.py
    ```
 
-2. Le programme va :
-   - Scanner les réseaux disponibles
-   - Analyser leur sécurité
-   - Générer un rapport détaillé
+2. The program will:
+   - Scan available networks
+   - Analyze their security
+   - Generate a detailed report
 
-## Informations analysées
+## Analyzed Information
 
-- 📶 Force du signal
-- 🔐 Type de sécurité (WEP/WPA/WPA2/WPA3)
-- 📻 Canal et fréquence
-- 🌐 Informations réseau (SSID, BSSID)
-- 🔍 Vulnérabilités potentielles
-- 📊 Statistiques de performance
+- 📶 Signal strength
+- 🔐 Security type (WEP/WPA/WPA2/WPA3)
+- 📻 Channel and frequency
+- 🌐 Network information (SSID, BSSID)
+- 🔍 Potential vulnerabilities
+- 📊 Performance statistics
 
-## Format du rapport
+## Report Format
 
-Le rapport généré inclut :
-- Informations système
-- Liste des réseaux détectés
-- Analyse de sécurité par réseau
-- Alertes et recommandations
-- Statistiques détaillées
+The generated report includes:
+- System information
+- List of detected networks
+- Security analysis per network
+- Alerts and recommendations
+- Detailed statistics
 
-## Compatibilité OS
+## OS Compatibility
 
 | OS      | Status | Notes |
 |---------|--------|-------|
-| MacOS   | ✅     | Nécessite autorisation système |
-| Linux   | ✅     | Nécessite sudo |
-| Windows | ✅     | Nécessite droits admin |
+| MacOS   | ✅     | Requires system authorization |
+| Linux   | ✅     | Requires sudo |
+| Windows | ✅     | Requires admin rights |
 
-## Limitations connues
+## Known Limitations
 
-- Certaines cartes WiFi peuvent ne pas supporter toutes les fonctionnalités
-- L'analyse approfondie nécessite des privilèges élevés
-- Les réseaux masqués peuvent ne pas être détectés
-- Certaines fonctionnalités dépendent du système d'exploitation
+- Some WiFi cards may not support all features
+- In-depth analysis requires elevated privileges
+- Hidden networks may not be detected
+- Some features are OS-dependent
 
-## Sécurité
+## Security
 
-⚠️ Cet outil est destiné à des fins éducatives et de test uniquement. 
-L'utilisation doit être conforme aux lois locales et avec autorisation appropriée.
+⚠️ This tool is intended for educational and testing purposes only.
+Usage must comply with local laws and proper authorization.
 

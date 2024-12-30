@@ -1,86 +1,86 @@
 # 2FA Generator 🔐
 
-Un gestionnaire de codes 2FA moderne et sécurisé avec interface web. Cette application permet de gérer vos authentifications à double facteur de manière centralisée.
+A modern and secure 2FA code manager with web interface. This application allows you to manage your two-factor authentication codes in a centralized way.
 
-## Fonctionnalités
+## Features
 
-- 📱 Génération de codes TOTP (Time-based One-Time Password)
-- 🎥 Scan de QR codes via webcam
-- 📂 Import de QR codes via fichiers images
-- 💾 Stockage sécurisé des secrets dans une base SQLite
-- ⏱️ Barre de progression visuelle pour le timing
-- 🔄 Actualisation automatique des codes
-- 🎨 Interface utilisateur moderne et responsive
+- 📱 TOTP (Time-based One-Time Password) code generation
+- 🎥 QR code scanning via webcam
+- 📂 QR code import via image files
+- 💾 Secure storage of secrets in SQLite database
+- ⏱️ Visual progress bar for timing
+- 🔄 Automatic code refresh
+- 🎨 Modern and responsive user interface
 
-## Prérequis
+## Prerequisites
 
-- Node.js (v14 ou supérieur)
-- npm ou yarn
-- Une webcam pour le scan de QR codes (optionnel)
+- Node.js (v14 or higher)
+- npm or yarn
+- Webcam for QR code scanning (optional)
 
 ## Installation
 
-1. Clonez le dépôt :
+1. Clone the repository:
 ```bash
-git clone <url-du-repo>
+git clone <repo-url>
 cd 2fa-generator
 ```
 
-2. Installez les dépendances :
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Lancez l'application :
+3. Launch the application:
 ```bash
 npm start
 ```
 
-4. Ouvrez votre navigateur à l'adresse : `http://localhost:3001`
+4. Open your browser at: `http://localhost:3001`
 
-## Utilisation
+## Usage
 
-### Ajout d'un compte 2FA
+### Adding a 2FA Account
 
-Deux méthodes sont disponibles :
+Two methods are available:
 
-1. **Scan via caméra** :
-   - Cliquez sur "Scan with Camera"
-   - Autorisez l'accès à la caméra
-   - Présentez le QR code à scanner
+1. **Camera Scanning**:
+   - Click on "Scan with Camera"
+   - Allow camera access
+   - Present the QR code to scan
 
-2. **Import d'image** :
-   - Cliquez sur "Upload Image"
-   - Glissez-déposez votre image ou cliquez pour sélectionner
+2. **Image Import**:
+   - Click on "Upload Image"
+   - Drag and drop your image or click to select
 
-### Gestion des comptes
+### Account Management
 
-- Les codes sont automatiquement mis à jour
-- Une barre de progression indique le temps restant
-- Le bouton "Delete" permet de supprimer un compte
+- Codes are automatically updated
+- A progress bar indicates remaining time
+- Use the "Delete" button to remove an account
 
-## Sécurité
+## Security
 
-- Les secrets sont stockés de manière sécurisée dans une base SQLite
-- Aucune donnée n'est envoyée à des serveurs externes
-- L'application fonctionne entièrement en local
+- Secrets are securely stored in a SQLite database
+- No data is sent to external servers
+- The application runs entirely locally
 
-## Développement
+## Development
 
-Structure du projet :
+Project structure:
 ```
 2fa-generator/
-├── index.js         # Serveur Express
+├── index.js         # Express server
 ├── public/          # Frontend
-│   └── index.html   # Interface utilisateur
-├── accounts.db      # Base de données SQLite
-└── package.json     # Dépendances
+│   └── index.html   # User interface
+├── accounts.db      # SQLite database
+└── package.json     # Dependencies
 ```
 
-## Technologies utilisées
+## Technologies Used
 
-- Frontend : HTML5, CSS3, JavaScript (Vanilla)
-- Backend : Node.js, Express
-- Base de données : SQLite
-- Librairies : otplib, html5-qrcode, QRCode.js
+- Frontend: HTML5, CSS3, JavaScript (Vanilla)
+- Backend: Node.js, Express
+- Database: SQLite
+- Libraries: otplib, html5-qrcode, QRCode.js
 

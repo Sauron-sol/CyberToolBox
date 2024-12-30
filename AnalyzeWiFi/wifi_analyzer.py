@@ -19,20 +19,20 @@ class NetworkScanner(ABC):
         pass
 
     def analyze_signal_strength(self, signal: int) -> str:
-        """Analyser la qualité du signal"""
+        """Analyze signal quality"""
         if signal >= -50:
             return "Excellent"
         elif signal >= -60:
-            return "Bon"
+            return "Good"
         elif signal >= -70:
-            return "Correct"
+            return "Fair"
         elif signal >= -80:
-            return "Faible"
+            return "Poor"
         else:
-            return "Très faible"
+            return "Very poor"
 
     def get_channel_congestion(self, networks: List[Dict]) -> Dict:
-        """Analyser la congestion des canaux"""
+        """Analyze channel congestion"""
         channel_count = {}
         for network in networks:
             channel = network.get('channel', 'Unknown')
@@ -41,25 +41,25 @@ class NetworkScanner(ABC):
         return channel_count
 
     def get_network_recommendations(self, network: Dict) -> List[str]:
-        """Générer des recommandations basées sur l'analyse"""
+        """Generate recommendations based on analysis"""
         recommendations = []
         
-        # Analyse du signal
+        # Signal analysis
         signal = network.get('signal', 0)
         if signal < -70:
-            recommendations.append("Signal faible - Envisagez de vous rapprocher du point d'accès")
+            recommendations.append("Weak signal - Consider moving closer to access point")
             
-        # Analyse du canal
+        # Channel analysis 
         if network.get('channel'):
             if not network.get('is_5ghz'):
-                recommendations.append("Considérez la bande 5GHz pour de meilleures performances")
+                recommendations.append("Consider using 5GHz band for better performance")
                 
-        # Analyse de la sécurité
+        # Security analysis
         security = network.get('security', '').upper()
         if 'WEP' in security or 'NONE' in security:
-            recommendations.append("URGENT: Le niveau de sécurité est insuffisant")
+            recommendations.append("URGENT: Security level is insufficient")
         elif 'WPA' in security and 'WPA2' not in security:
-            recommendations.append("Recommandé: Passez à WPA2 ou WPA3")
+            recommendations.append("Recommended: Upgrade to WPA2 or WPA3")
             
         return recommendations
 
@@ -92,22 +92,22 @@ class MacOSScanner(NetworkScanner):
         try:
             self.ui.print_success("Starting network scan...")
             
-            # Initialiser le dictionnaire d'information réseau
+            # Initialize network information dictionary
             network_info = {
                 'ssid': 'Not Connected',
                 'interface': self.interface,
                 'signal': -1,
                 'channel': 'Unknown',
                 'security': 'Unknown',
-                'is_connected': False,  # Nouveau champ
+                'is_connected': False,  # New field
             }
             
-            # Obtenir l'information de connexion WiFi et les détails
+            # Get WiFi connection information and details
             net_info = subprocess.check_output(['networksetup', '-getinfo', 'Wi-Fi'], 
                                             universal_newlines=True)
             self.ui.print_success("Got network details")
             
-            # Parser les informations réseau
+            # Parse network information
             has_ip = False
             for line in net_info.split('\n'):
                 if ':' in line:
@@ -122,14 +122,14 @@ class MacOSScanner(NetworkScanner):
                     elif 'Wi-Fi ID' in key and value not in ['none', '']:
                         network_info['mac_address'] = value
 
-            # Marquer comme connecté si nous avons une IP
+            # Mark as connected if we have an IP
             network_info['is_connected'] = has_ip
             if has_ip:
                 network_info['connection_status'] = 'Active connection with IP'
             else:
                 network_info['connection_status'] = 'No active connection'
 
-            # Obtenir les informations système
+            # Get system information
             sys_info = subprocess.check_output(['system_profiler', 'SPNetworkDataType', '-json'],
                                             universal_newlines=True)
             system_data = json.loads(sys_info)
@@ -175,11 +175,11 @@ class MacOSScanner(NetworkScanner):
                 self.ui.print_error("No network name found in WiFi info")
                 return {}
                 
-            # Ajouter des valeurs par défaut nécessaires
+            # Add necessary default values
             network.update({
-                'signal': -50,  # Valeur par défaut pour le réseau connecté
+                'signal': -50,  # Default value for connected network
                 'channel': 'Auto',
-                'security': 'WPA2',  # Valeur commune par défaut
+                'security': 'WPA2',  # Common default value
                 'is_current': True,
                 'address': 'Current Network',
             })
@@ -203,11 +203,11 @@ class MacOSScanner(NetworkScanner):
                         'speed': interface.get('speed', 'Unknown'),
                     }
                     
-                    # Extraire les DNS servers s'ils existent
+                    # Extract DNS servers if they exist
                     if 'dns_servers' in interface:
                         network_info['dns_servers'] = interface['dns_servers']
                     
-                    # Ajouter d'autres informations pertinentes
+                    # Add other relevant information
                     if 'ip_address' in interface:
                         network_info['ip_address'] = interface['ip_address'][0] if interface['ip_address'] else 'Unknown'
                     
@@ -505,28 +505,28 @@ class WiFiAnalyzer:
         os_type = platform.system().lower()
         
         if os_type == 'darwin':
-            # Amélioration des messages pour macOS
+            # Improved messages for macOS
             airport_path = '/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
             if not os.path.exists(airport_path):
                 self.ui.print_error("Airport utility not found on your Mac.")
                 sys.exit(1)
             try:
-                # Vérifier si l'interface WiFi est active
+                # Check if WiFi interface is active
                 subprocess.check_output([airport_path, '-I'], stderr=subprocess.PIPE)
                 self.ui.print_success("macOS WiFi interface detected and active")
-                return 'macos'  # Utiliser 'macos' au lieu de 'darwin' pour plus de clarté
+                return 'macos'  # Use 'macos' instead of 'darwin' for clarity
             except subprocess.CalledProcessError:
                 self.ui.print_error("WiFi interface not active. Please enable WiFi on your Mac.")
                 sys.exit(1)
         elif os_type == 'linux':
-            # Vérifier si les outils Linux sont disponibles
+            # Check if Linux tools are available
             if self._check_linux_tools():
                 return 'linux'
             else:
                 self.ui.print_error("Required Linux wireless tools not found. Please install wireless-tools and iw.")
                 sys.exit(1)
         elif os_type == 'windows':
-            # Vérifier si netsh est disponible
+            # Check if netsh is available
             if self._check_windows_tools():
                 return 'windows'
             else:
@@ -586,15 +586,15 @@ class WiFiAnalyzer:
         else:
             self.ui.print_success(f"Found {len(self.networks)} networks")
         
-        # Ajouter l'analyse de congestion
+        # Add congestion analysis
         if self.networks:
             channel_congestion = self.scanner.get_channel_congestion(self.networks)
-            print("\nAnalyse de la congestion des canaux:")
+            print("\nAnalyzing channel congestion:")
             for channel, count in channel_congestion.items():
-                congestion_level = "Élevée" if count > 3 else "Moyenne" if count > 1 else "Faible"
-                print(f"Canal {channel}: {count} réseaux (Congestion: {congestion_level})")
+                congestion_level = "High" if count > 3 else "Medium" if count > 1 else "Low"
+                print(f"Channel {channel}: {count} networks (Congestion: {congestion_level})")
 
-        # Ajouter des recommandations pour chaque réseau
+        # Add recommendations for each network
         for network in self.networks:
             recommendations = self.scanner.get_network_recommendations(network)
             if recommendations:
@@ -621,13 +621,13 @@ class WiFiAnalyzer:
         """Analyze security of found networks"""
         self.vulnerabilities = []
         for network in self.networks:
-            # Vérification de la connexion
+            # Connection check
             if not network.get('is_connected', False):
                 self.vulnerabilities.append("INFO: No active WiFi connection")
                 self.vulnerabilities.append("NOTICE: Unable to perform complete security analysis without active connection")
                 continue
 
-            # Analyse IP et réseau
+            # IP and network analysis
             if network.get('ip_address'):
                 if network['ip_address'].startswith('192.168.'):
                     self.vulnerabilities.append("INFO: Using private IP range (192.168.x.x)")
@@ -636,18 +636,18 @@ class WiFiAnalyzer:
                 elif network['ip_address'].startswith('172.'):
                     self.vulnerabilities.append("INFO: Using private IP range (172.16-31.x.x)")
 
-            # Analyse DNS
+            # DNS analysis
             dns_servers = network.get('dns_servers', [])
             if not dns_servers or dns_servers == ['Unknown']:
                 self.vulnerabilities.append("WARNING: No DNS servers configured")
             else:
                 self.vulnerabilities.append(f"INFO: Using {len(dns_servers)} DNS servers")
 
-            # Analyse du routeur
+            # Router analysis
             if not network.get('router'):
                 self.vulnerabilities.append("WARNING: No default gateway configured")
 
-            # Autres analyses existantes...
+            # Other existing analyses...
             # ... existing security checks ...
 
     def generate_report(self):
@@ -664,7 +664,7 @@ class WiFiAnalyzer:
         report += f"Machine: {platform.machine()}\n"
         report += f"Processor: {platform.processor()}\n"
         
-        # Network Information avec statut amélioré
+        # Network Information with improved status
         for i, network in enumerate(self.networks, 1):
             report += f"\n📡 Network #{i}\n"
             report += f"{'─'*40}\n"
@@ -682,7 +682,7 @@ class WiFiAnalyzer:
             if network.get('speed'):
                 report += f"  Link Speed: {network['speed']}\n"
 
-        # Security Analysis avec groupement amélioré
+        # Security Analysis with improved grouping
         if self.vulnerabilities:
             report += "\n🔒 Security Analysis:\n"
             report += "="*40 + "\n"
@@ -712,12 +712,12 @@ class WiFiAnalyzer:
                 for vuln in infos:
                     report += f"ℹ️ {vuln}\n"
         
-        # Ajouter section de recommandations au rapport
-        report += "\n🎯 Recommandations:\n"
+        # Add recommendations section to the report
+        report += "\n🎯 Recommendations:\n"
         report += "="*40 + "\n"
         for network in self.networks:
             if network.get('recommendations'):
-                report += f"\nPour le réseau {network.get('ssid', 'Unknown')}:\n"
+                report += f"\nFor network {network.get('ssid', 'Unknown')}:\n"
                 for rec in network['recommendations']:
                     report += f"→ {rec}\n"
         

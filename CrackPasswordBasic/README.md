@@ -1,62 +1,62 @@
 # Basic Password Cracker Plus
 
-Un outil éducatif pour comprendre les différentes méthodes de cracking de mots de passe et d'analyse de hashs.
+An educational tool to understand different password cracking methods and hash analysis.
 
 ## Description
 
-Cet outil permet de :
-- Cracker des mots de passe en utilisant différentes méthodes
-- Analyser et identifier les types de hashs
-- Utiliser des outils professionnels (Hashcat et John the Ripper)
-- Apprendre les différentes techniques de cracking de manière interactive
+This tool allows you to:
+- Crack passwords using different methods
+- Analyze and identify hash types
+- Use professional tools (Hashcat and John the Ripper)
+- Learn different cracking techniques interactively
 
-## Prérequis
+## Prerequisites
 
 - Python 3.6+
-- pip (gestionnaire de paquets Python)
-- Hashcat (recommandé)
-- John the Ripper (optionnel)
+- pip (Python package manager)
+- Hashcat (recommended)
+- John the Ripper (optional)
 
 ## Installation
 
-1. Clonez le repository :
+1. Clone the repository:
    ```bash
-   git clone https://github.com/votre-username/BasicPasswordCracker.git
+   git clone https://github.com/your-username/BasicPasswordCracker.git
    cd BasicPasswordCracker
    ```
 
-2. Installez les dépendances Python :
+2. Install Python dependencies:
    ```bash
    pip install requests
    ```
 
-3. Installez Hashcat (recommandé) :
+3. Install Hashcat (recommended):
    ```bash
-   # Sur Ubuntu/Debian
+   # On Ubuntu/Debian
    sudo apt-get install hashcat
    
-   # Sur macOS
+   # On macOS
    brew install hashcat
    ```
 
-4. (Optionnel) Installez John the Ripper :
+4. (Optional) Install John the Ripper:
    ```bash
-   # Sur Ubuntu/Debian
+   # On Ubuntu/Debian
    sudo apt-get install john
    
-   # Sur macOS
+   # On macOS
    brew install john
    ```
 
-## Fonctionnalités
+## Features
 
-1. **Cracking de mots de passe**
-   - Attaque par dictionnaire
-   - Attaque par force brute
-   - Utilisation de Hashcat
-   - Utilisation de John the Ripper
+1. **Password Cracking**
+   - Dictionary attack
+   - Brute force attack
+   - Using Hashcat
+   - Using John the Ripper
 
-2. **Types de hashs supportés**
+2. **Supported Hash Types**
    - MD5
    - SHA1
    - SHA256
@@ -65,67 +65,67 @@ Cet outil permet de :
    - MySQL
    - bcrypt
 
-3. **Analyse de hashs**
-   - Identification automatique du type
-   - Analyse de la composition
-   - Informations sur les usages courants
+3. **Hash Analysis**
+   - Automatic type identification
+   - Composition analysis
+   - Common usage information
 
 4. **Configuration**
-   - Choix de l'outil préféré
-   - Personnalisation des temps d'attaque
-   - Gestion des wordlists
+   - Preferred tool selection
+   - Attack duration customization
+   - Wordlist management
 
-## Utilisation
+## Usage
 
-1. Lancez le programme :
+1. Launch the program:
    ```bash
    python passwordCracker.py
    ```
 
-2. Menu principal :
+2. Main menu:
    ```
-   1. Crack a password    : Cracker un mot de passe en clair
-   2. Crack a hash        : Cracker un hash directement
-   3. Configure settings  : Modifier les paramètres
-   4. Check external tools: Vérifier les outils disponibles
-   5. Analyze a hash      : Analyser un hash sans le cracker
-   6. Exit               : Quitter le programme
+   1. Crack a password    : Crack a plaintext password
+   2. Crack a hash        : Crack a hash directly
+   3. Configure settings  : Modify settings
+   4. Check external tools: Check available tools
+   5. Analyze a hash      : Analyze a hash without cracking
+   6. Exit               : Exit program
    ```
 
-3. Exemples d'utilisation :
+3. Usage examples:
    ```bash
-   # Analyser un hash MD5
-   > Choisissez 5
-   > Entrez le hash : 5f4dcc3b5aa765d61d8327deb882cf99
+   # Analyze an MD5 hash
+   > Choose 5
+   > Enter hash: 5f4dcc3b5aa765d61d8327deb882cf99
 
-   # Cracker un mot de passe
-   > Choisissez 1
-   > Entrez le mot de passe : monmotdepasse
+   # Crack a password
+   > Choose 1
+   > Enter password: mypassword
 
-   # Cracker un hash directement
-   > Choisissez 2
-   > Entrez le hash : 5f4dcc3b5aa765d61d8327deb882cf99
+   # Crack a hash directly
+   > Choose 2
+   > Enter hash: 5f4dcc3b5aa765d61d8327deb882cf99
    ```
 
 ## Wordlists
 
-- Le programme télécharge automatiquement rockyou.txt au premier lancement
-- Une wordlist basique est incluse par défaut
-- Vous pouvez ajouter vos propres wordlists via la configuration
+- The program automatically downloads rockyou.txt on first launch
+- A basic wordlist is included by default
+- You can add your own wordlists through configuration
 
-## Configuration avancée
+## Advanced Configuration
 
-- Modifiez les temps maximum de force brute
-- Changez la longueur maximum des mots de passe
-- Activez/désactivez les outils externes
-- Choisissez entre Hashcat et John the Ripper
-- Configurez le niveau de verbosité
+- Modify maximum brute force times
+- Change maximum password length
+- Enable/disable external tools
+- Choose between Hashcat and John the Ripper
+- Configure verbosity level
 
-## Sécurité et éthique
+## Security and Ethics
 
-Cet outil est créé à des fins éducatives uniquement. Son utilisation doit se faire :
-- Dans un cadre légal
-- Sur vos propres systèmes
-- Pour comprendre la sécurité des mots de passe
+This tool is created for educational purposes only. Its use must be:
+- Within legal boundaries
+- On your own systems
+- To understand password security
 
-L'utilisation malveillante de cet outil est strictement interdite.
+Malicious use of this tool is strictly prohibited.

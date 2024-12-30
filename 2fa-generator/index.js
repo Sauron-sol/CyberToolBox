@@ -9,7 +9,7 @@ const app = express();
 const port = 3001;
 const db = new sqlite3.Database('accounts.db');
 
-// Configuration de la base de données
+// Database configuration
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS accounts (
     id TEXT PRIMARY KEY,
@@ -23,7 +23,7 @@ db.serialize(() => {
 app.use(express.static('public'));
 app.use(express.json());
 
-// Générer une clé secrète
+// Generate a secret key
 const secret = authenticator.generateSecret();
 
 app.get('/api/secret', (req, res) => {
@@ -44,7 +44,7 @@ app.get('/api/qr', async (req, res) => {
     res.json({ qrcode });
 });
 
-// Route pour ajouter un nouveau compte 2FA
+// Route to add a new 2FA account
 app.post('/api/accounts', (req, res) => {
   const { name, issuer, secret: existingSecret } = req.body;
   const id = uuidv4();
@@ -62,7 +62,7 @@ app.post('/api/accounts', (req, res) => {
   );
 });
 
-// Route pour obtenir tous les comptes
+// Route to get all accounts
 app.get('/api/accounts', (req, res) => {
   db.all('SELECT id, name, issuer FROM accounts', (err, rows) => {
     if (err) {
@@ -73,7 +73,7 @@ app.get('/api/accounts', (req, res) => {
   });
 });
 
-// Route pour obtenir le code d'un compte spécifique
+// Route to get code for a specific account
 app.get('/api/accounts/:id/code', (req, res) => {
   db.get('SELECT secret FROM accounts WHERE id = ?', [req.params.id], (err, row) => {
     if (err || !row) {
@@ -88,7 +88,7 @@ app.get('/api/accounts/:id/code', (req, res) => {
   });
 });
 
-// Route pour supprimer un compte
+// Route to delete an account
 app.delete('/api/accounts/:id', (req, res) => {
   db.run('DELETE FROM accounts WHERE id = ?', [req.params.id], (err) => {
     if (err) {

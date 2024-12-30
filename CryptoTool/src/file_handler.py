@@ -19,7 +19,7 @@ def encrypt_file(filepath, password):
     """Encrypt a file using Fernet with password"""
     try:
         if not os.path.exists(filepath):
-            return "Erreur: Le fichier n'existe pas"
+            return "Error: File does not exist"
             
         key = generate_key_from_password(password)
         f = Fernet(key)
@@ -30,28 +30,28 @@ def encrypt_file(filepath, password):
         encrypted_data = f.encrypt(file_data)
         output_path = filepath + '.encrypted'
         
-        # Écriture du fichier chiffré
+        # Write encrypted file
         with open(output_path, 'wb') as file:
             file.write(encrypted_data)
         
-        # Suppression du fichier original après chiffrement réussi
+        # Delete original file after successful encryption
         os.remove(filepath)
         
         return output_path
     except Exception as e:
-        # En cas d'erreur, on supprime le fichier chiffré s'il a été créé
+        # If error occurs, delete encrypted file if it was created
         if os.path.exists(filepath + '.encrypted'):
             os.remove(filepath + '.encrypted')
-        return f"Erreur lors du chiffrement: {str(e)}"
+        return f"Error during encryption: {str(e)}"
 
 def decrypt_file(filepath, password):
     """Decrypt a file using Fernet with password"""
     try:
         if not os.path.exists(filepath):
-            return "Erreur: Le fichier n'existe pas"
+            return "Error: File does not exist"
             
         if not filepath.endswith('.encrypted'):
-            return "Erreur: Le fichier ne semble pas être un fichier chiffré (.encrypted)"
+            return "Error: File does not appear to be encrypted (.encrypted)"
             
         key = generate_key_from_password(password)
         f = Fernet(key)
@@ -62,25 +62,25 @@ def decrypt_file(filepath, password):
         try:
             decrypted_data = f.decrypt(encrypted_data)
         except InvalidToken:
-            return "Erreur: Mot de passe incorrect ou fichier corrompu"
+            return "Error: Incorrect password or corrupted file"
         
-        # Récupère le nom du fichier original en retirant .encrypted
-        output_file = filepath[:-10]  # retire '.encrypted'
+        # Get original filename by removing .encrypted
+        output_file = filepath[:-10]  
         
-        # Écrit les données déchiffrées dans le fichier original
+        # Write decrypted data to original file
         with open(output_file, 'wb') as file:
             file.write(decrypted_data)
         
-        # Supprime le fichier chiffré après déchiffrement réussi
+        # Delete encrypted file after successful decryption
         os.remove(filepath)
         
         return output_file
     except Exception as e:
-        # En cas d'erreur, on supprime le fichier déchiffré s'il a été créé
+        # If error occurs, delete decrypted file if it was created
         output_file = filepath[:-10]
         if os.path.exists(output_file):
             os.remove(output_file)
-        return f"Erreur lors du déchiffrement: {str(e)}"
+        return f"Error during decryption: {str(e)}"
 
 def save_to_file(data, filename):
     """Save data to a file"""
@@ -89,15 +89,15 @@ def save_to_file(data, filename):
             f.write(data)
         return True
     except Exception as e:
-        return f"Erreur lors de la sauvegarde: {str(e)}"
+        return f"Error while saving: {str(e)}"
 
 def read_from_file(filename):
     """Read data from a file"""
     try:
         if not os.path.exists(filename):
-            return "Erreur: Le fichier n'existe pas"
+            return "Error: File does not exist"
             
         with open(filename, 'r') as f:
             return f.read()
     except Exception as e:
-        return f"Erreur lors de la lecture: {str(e)}"
+        return f"Error while reading: {str(e)}"

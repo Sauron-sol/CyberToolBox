@@ -1,90 +1,90 @@
 # CryptoTool
 
-Un outil complet de cryptographie intégrant des algorithmes classiques et modernes, avec des fonctionnalités d'analyse et de gestion des mots de passe.
+A comprehensive cryptography tool integrating classic and modern algorithms, with password analysis and management features.
 
-## Fonctionnalités
+## Features
 
-### Chiffrements Classiques
-- **Caesar Cipher** : Chiffrement par décalage
-- **Vigenère Cipher** : Chiffrement polyalphabétique
-- **ROT13** : Variante du chiffrement César avec un décalage fixe de 13
-- **Atbash** : Chiffrement par substitution inverse de l'alphabet
+### Classic Ciphers
+- **Caesar Cipher**: Shift cipher
+- **Vigenère Cipher**: Polyalphabetic cipher
+- **ROT13**: Caesar cipher variant with fixed shift of 13
+- **Atbash**: Reverse alphabet substitution cipher
 
-### Chiffrements Modernes
-- **AES** : Advanced Encryption Standard (via Fernet)
-- **RSA** : Chiffrement asymétrique
-- **Base64** : Encodage en base 64
+### Modern Ciphers
+- **AES**: Advanced Encryption Standard (via Fernet)
+- **RSA**: Asymmetric encryption
+- **Base64**: Base64 encoding
 
-### Gestion de Fichiers
-- Chiffrement/déchiffrement de fichiers avec mot de passe
-- Gestion automatique des fichiers (suppression sécurisée)
-- Support des erreurs et récupération
+### File Management
+- File encryption/decryption with password
+- Automatic file management (secure deletion)
+- Error handling and recovery
 
-### Outils de Mot de passe
-- Générateur de mots de passe sécurisés
-- Analyse de la force des mots de passe
-- Vérification des politiques de sécurité
+### Password Tools
+- Secure password generator
+- Password strength analysis
+- Security policy verification
 
-### Outils d'Analyse
-- Analyse de fréquence des caractères
-- Détection automatique des clés Caesar
-- Calcul de l'Index de Coïncidence
+### Analysis Tools
+- Character frequency analysis
+- Automatic Caesar key detection
+- Index of Coincidence calculation
 
 ## Installation
 
-1. Clonez le dépôt :
+1. Clone the repository:
 ```bash
-git clone [url-du-repo]
+git clone [repo-url]
 cd CryptoTool
 ```
 
-2. Installez les dépendances :
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-## Utilisation
+## Usage
 
-Lancez l'outil :
+Launch the tool:
 ```bash
 python crypto.py
 ```
 
-### Exemples d'utilisation
+### Usage Examples
 
-1. Chiffrer un message avec Caesar :
-   - Choisissez l'option 1
-   - Entrez le texte à chiffrer
-   - Spécifiez la clé (nombre)
+1. Encrypt a message with Caesar:
+   - Choose option 1
+   - Enter text to encrypt
+   - Specify key (number)
 
-2. Chiffrer un fichier :
-   - Choisissez l'option 14
-   - Entrez le chemin du fichier
-   - Définissez un mot de passe
+2. Encrypt a file:
+   - Choose option 14
+   - Enter file path
+   - Set a password
 
-3. Analyser un texte chiffré :
-   - Choisissez l'option 18 pour l'analyse de fréquence
-   - Entrez le texte chiffré
+3. Analyze encrypted text:
+   - Choose option 18 for frequency analysis
+   - Enter encrypted text
 
-4. Générer un mot de passe sécurisé :
-   - Choisissez l'option 16
-   - Spécifiez la longueur souhaitée
+4. Generate a secure password:
+   - Choose option 16
+   - Specify desired length
 
-## Structure du Projet
+## Project Structure
 
 ```
 CryptoTool/
 ├── src/
-│   ├── classic_ciphers.py    # Algorithmes classiques
-│   ├── modern_ciphers.py     # Algorithmes modernes
-│   ├── file_handler.py       # Gestion des fichiers
-│   ├── password_tools.py     # Outils de mot de passe
-│   └── analysis.py          # Outils d'analyse
-├── crypto.py                # Interface principale
-├── requirements.txt         # Dépendances
-└── README.md               # Documentation
+│   ├── classic_ciphers.py    # Classic algorithms
+│   ├── modern_ciphers.py     # Modern algorithms
+│   ├── file_handler.py       # File management
+│   ├── password_tools.py     # Password tools
+│   └── analysis.py           # Analysis tools
+├── crypto.py                 # Main interface
+├── requirements.txt          # Dependencies
+└── README.md                # Documentation
 ```
 
-## Sécurité
+## Security
 
-⚠️ Note importante : Cet outil est conçu à des fins éducatives et de démonstration. Pour des applications en production, utilisez des bibliothèques cryptographiques établies et suivez les meilleures pratiques de sécurité.
+⚠️ Important note: This tool is designed for educational and demonstration purposes. For production applications, use established cryptographic libraries and follow security best practices.

@@ -41,7 +41,7 @@ class HashIdentifier:
 
     @staticmethod
     def identify_hash(hash_string):
-        """Identify the hash type based on pattern and length"""
+        """Identify hash type based on pattern and length"""
         possible_types = []
         for hash_type, (pattern, mode) in HashIdentifier.HASH_PATTERNS.items():
             if re.match(pattern, hash_string):
@@ -92,7 +92,7 @@ class PasswordCracker:
         return hashlib.md5(password.encode()).hexdigest()
 
     def dictionary_attack(self, hash_to_crack):
-        print("Trying dictionary attack...")
+        print("Starting dictionary attack...")
         for password in self.common_passwords:
             if self.hash_password(password) == hash_to_crack:
                 return password
@@ -100,7 +100,7 @@ class PasswordCracker:
 
     def brute_force_attack(self, hash_to_crack, max_length=8):
         print("\n[+] Starting brute force attack...")
-        print("[*] This might take a while depending on the password complexity")
+        print("[*] This may take a while depending on password complexity")
         start_time = time.time()
         chars = string.ascii_letters + string.digits
         

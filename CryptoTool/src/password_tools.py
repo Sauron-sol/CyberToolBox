@@ -29,40 +29,40 @@ def check_password_strength(password):
     if len(password) >= 12:
         score += 1
     else:
-        feedback.append("Le mot de passe devrait faire au moins 12 caractères")
+        feedback.append("Password should be at least 12 characters long")
         
     if any(c.isupper() for c in password):
         score += 1
     else:
-        feedback.append("Ajoutez des majuscules")
+        feedback.append("Add uppercase letters")
         
     if any(c.islower() for c in password):
         score += 1
     else:
-        feedback.append("Ajoutez des minuscules")
+        feedback.append("Add lowercase letters")
         
     if any(c.isdigit() for c in password):
         score += 1
     else:
-        feedback.append("Ajoutez des chiffres")
+        feedback.append("Add numbers")
         
     if any(c in string.punctuation for c in password):
         score += 1
     else:
-        feedback.append("Ajoutez des caractères spéciaux")
+        feedback.append("Add special characters")
     
     strength = {
-        0: "Très faible",
-        1: "Faible",
-        2: "Moyen",
-        3: "Fort",
-        4: "Très fort",
+        0: "Very weak",
+        1: "Weak",
+        2: "Medium",
+        3: "Strong",
+        4: "Very strong",
         5: "Excellent"
     }
     
     return {
         'score': strength[score],
-        'crack_time': "Variable selon la complexité",
+        'crack_time': "Varies with complexity",
         'suggestions': feedback
     }
 
