@@ -1,0 +1,5 @@
+cryptography>=3.4.7
+eth-account>=0.5.9
+web3>=5.31.3
+# Remplacer pysha3 par hashlib (inclus dans Python standard)
+eth-hash[pycryptodome]>=0.5.1

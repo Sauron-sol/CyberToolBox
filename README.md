@@ -53,6 +53,16 @@ System monitoring tool with anomaly detection.
 
 [View project →](./SystemMonitor/)
 
+### 6. SecureWallet 🔐
+A secure cryptocurrency wallet with local encryption.
+- Local encryption of private keys
+- Multiple wallet management
+- Password-protected storage
+- No network connection required
+- Support for various cryptocurrencies
+
+[View project →](./SecureWallet/)
+
 ## Objectives
 
 This toolbox aims to:
