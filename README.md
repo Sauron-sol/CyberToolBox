@@ -1,77 +1,77 @@
 # CyberToolBox 🛡️
 
-Une collection d'outils et de projets orientés cybersécurité à des fins éducatives.
+A collection of cybersecurity-oriented tools and projects for educational purposes.
 
-## Projets actuels
+## Current Projects
 
 ### 1. Basic Password Cracker Plus
-Un outil éducatif pour comprendre les différentes méthodes de cracking de mots de passe.
-- Supporte plusieurs types de hash (MD5, SHA1, SHA256, etc.)
-- Interface en ligne de commande interactive
-- Intégration avec Hashcat et John the Ripper
-- Analyse de hash et identification
+An educational tool to understand different password cracking methods.
+- Supports multiple hash types (MD5, SHA1, SHA256, etc.)
+- Interactive command-line interface
+- Integration with Hashcat and John the Ripper
+- Hash analysis and identification
 
-[Voir le projet →](./BasicPasswordCracker/)
+[View project →](./BasicPasswordCracker/)
 
 ### 2. Analyze WiFi
-Un analyseur de réseaux WiFi multiplateforme.
-- Scan des réseaux disponibles
-- Analyse de sécurité des réseaux
-- Support Windows/Linux/MacOS
-- Génération de rapports détaillés
-- Détection des vulnérabilités basiques
+A cross-platform WiFi network analyzer.
+- Scan available networks
+- Network security analysis
+- Windows/Linux/MacOS support
+- Detailed report generation
+- Basic vulnerability detection
 
-[Voir le projet →](./AnalyzeWiFi/)
+[View project →](./AnalyzeWiFi/)
 
 ### 3. 2FA Generator 🆕
-Un gestionnaire moderne de codes d'authentification à double facteur.
-- Interface web intuitive
-- Scan de QR codes via webcam
-- Import de codes depuis des images
-- Stockage sécurisé local
-- Génération de codes TOTP en temps réel
+A modern two-factor authentication code manager.
+- Intuitive web interface
+- QR code scanning via webcam
+- Code import from images
+- Secure local storage
+- Real-time TOTP code generation
 
-[Voir le projet →](./2fa-generator/)
+[View project →](./2fa-generator/)
 
 ### 4. Network Scanner 🆕
-Scanner de réseau avancé avec interface graphique.
-- Découverte des hôtes sur le réseau
-- Scan de ports et détection de services
-- Cartographie réseau interactive
-- Rapports détaillés exportables
-- Support IPv4 et IPv6
+Advanced network scanner with graphical interface.
+- Network host discovery
+- Port scanning and service detection
+- Interactive network mapping
+- Exportable detailed reports
+- IPv4 and IPv6 support
 
-[Voir le projet →](./NetworkScanner/)
+[View project →](./NetworkScanner/)
 
 ### 5. System Monitor 🆕
-Outil de surveillance système avec détection d'anomalies.
-- Monitoring en temps réel
-- Détection de comportements suspects
-- Analyse des processus et connexions
-- Alertes configurables
-- Interface web responsive
+System monitoring tool with anomaly detection.
+- Real-time monitoring
+- Suspicious behavior detection
+- Process and connection analysis
+- Configurable alerts
+- Responsive web interface
 
-[Voir le projet →](./SystemMonitor/)
+[View project →](./SystemMonitor/)
 
-## Objectifs
+## Objectives
 
-Cette toolbox a pour but de :
-1. Fournir des outils éducatifs pour comprendre la cybersécurité
-2. Permettre l'apprentissage pratique des concepts de sécurité
-3. Offrir une base de code pour développer ses propres outils
-4. Promouvoir les bonnes pratiques de sécurité
+This toolbox aims to:
+1. Provide educational tools to understand cybersecurity
+2. Enable practical learning of security concepts
+3. Offer a code base for developing your own tools
+4. Promote security best practices
 
-## Utilisation éthique
+## Ethical Usage
 
-Ces outils sont développés à des fins éducatives uniquement. Leur utilisation doit se faire :
-- Dans un cadre légal
-- Sur vos propres systèmes ou avec autorisation
-- Pour apprendre et comprendre la sécurité informatique
+These tools are developed for educational purposes only. Their use must be:
+- Within legal boundaries
+- On your own systems or with authorization
+- For learning and understanding computer security
 
-## Contribution
+## Contributing
 
-Les contributions sont encouragées ! Pour chaque projet :
-1. Lisez le README spécifique du projet
-2. Testez vos modifications
-3. Soumettez une Pull Request avec une description claire
+Contributions are encouraged! For each project:
+1. Read the project-specific README
+2. Test your modifications
+3. Submit a Pull Request with a clear description
 
