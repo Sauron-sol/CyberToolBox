@@ -63,6 +63,18 @@ A secure cryptocurrency wallet with local encryption.
 
 [View project →](./SecureWallet/)
 
+### 7. Malware Analysis Sandbox 🔬
+A secure environment for analyzing suspicious files with advanced features:
+- Static analysis (hashes, YARA, strings)
+- Dynamic analysis in isolated VMs
+- Cross-platform support (Windows/Linux/MacOS)
+- VirusTotal integration
+- Detailed HTML/JSON reports
+- Risk scoring and IoC extraction
+- Secure API key management
+
+[View project →](./Malware_sandbox/)
+
 ## Objectives
 
 This toolbox aims to:
