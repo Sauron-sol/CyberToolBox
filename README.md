@@ -75,6 +75,24 @@ A secure environment for analyzing suspicious files with advanced features:
 
 [View project →](./Malware_sandbox/)
 
+### 8. VulnScanner 🔍
+A comprehensive vulnerability scanner combining multiple tools and techniques:
+- Web vulnerability scanning with custom tests
+- Nuclei integration for template-based scanning
+- Katana integration for deep web crawling
+- Port scanning and service detection
+- Advanced HTML and CSV reporting
+- Configurable scanning parameters
+
+Key Features:
+- Multiple scanning modes (web, network, deep)
+- Integration with popular security tools
+- Detailed vulnerability reporting
+- JavaScript analysis capabilities
+- Rate-limited and configurable scanning
+
+[View project →](./VulnScanner/)
+
 ## Objectives
 
 This toolbox aims to:
