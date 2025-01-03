@@ -93,6 +93,17 @@ Key Features:
 
 [View project →](./VulnScanner/)
 
+### 9. MLIDS (Machine Learning IDS) 🤖
+A machine learning-based intrusion detection system using Python to analyze network traffic in real-time:
+- Real-time network packet capture and analysis
+- Machine learning-based anomaly detection (Isolation Forest)
+- Grafana dashboard for real-time visualization
+- Prometheus metrics integration
+- Cross-platform support (Linux, macOS, Windows)
+- Docker containerization for easy deployment
+
+[View project →](./MLIDS/)
+
 ## Objectives
 
 This toolbox aims to:
