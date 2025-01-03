@@ -108,10 +108,4 @@ These tools are developed for educational purposes only. Their use must be:
 - On your own systems or with authorization
 - For learning and understanding computer security
 
-## Contributing
-
-Contributions are encouraged! For each project:
-1. Read the project-specific README
-2. Test your modifications
-3. Submit a Pull Request with a clear description
 

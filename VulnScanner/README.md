@@ -106,6 +106,3 @@ Reports are generated in the `reports/` directory:
 
 This tool is intended for authorized security testing only. Ensure you have permission to scan target systems.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests.
