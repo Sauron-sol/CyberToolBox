@@ -121,18 +121,6 @@ XSSHunterPro/
 3. Verify reports for false positives
 4. Follow local security policies
 
-## Contribution
-
-1. Fork the project
-2. Create a branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is under the MIT License. See the `LICENSE` file for more details.
-
 ## Disclaimer
 
 The authors are not responsible for the misuse of this tool. 
