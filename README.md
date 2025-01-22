@@ -104,6 +104,17 @@ A machine learning-based intrusion detection system using Python to analyze netw
 
 [View project →](./MLIDS/)
 
+### 10. PhishingKit Analyzer 🎣
+An automated phishing kit analysis tool with advanced features:
+- Static analysis (YARA, suspicious patterns, obfuscation)
+- Dynamic analysis with Docker (execution simulation)
+- IoC extraction (C2 servers, exfiltration endpoints)
+- Generation of detailed reports (HTML, JSON, PDF)
+- Risk score calculation
+- Multi-platform support (Windows/Linux via WSL)
+
+[View project →](./PhishingKitAnalyzer/)
+
 ## Objectives
 
 This toolbox aims to:

@@ -1,0 +1,96 @@
+# Configuration of the PhishingKit Analyzer
+version: 1.0
+
+# General Configuration
+general:
+  debug: false
+  log_level: INFO
+  temp_dir: ./temp
+  max_file_size: 50MB
+
+# Analysis Configuration
+analysis:
+  # Timeout for analyzing a kit (in seconds)
+  timeout: 300
+  
+  # Enabled analysis modules
+  enabled_modules:
+    - static_analysis
+    - dynamic_analysis
+    - network_analysis
+    - obfuscation_detection
+    
+  # Static Analysis Configuration
+  static:
+    max_file_count: 1000
+    file_extensions:
+      - .php
+      - .html
+      - .js
+      - .htaccess
+    yara_rules_path: data/rules/
+
+  # Dynamic Analysis Configuration
+  dynamic:
+    sandbox_type: docker  # docker or vm
+    timeout: 180
+    max_memory: 2GB
+    network_capture: true
+
+# External API Keys
+api_keys:
+  virustotal: "YOUR_VIRUSTOTAL_API_KEY"
+  urlscan: "YOUR_URLSCAN_API_KEY"
+  threatfox: "YOUR_THREATFOX_API_KEY"
+
+# Database
+database:
+  type: sqlite  # sqlite or postgresql
+  path: data/phishingkit.db
+  # For PostgreSQL :
+  # host: localhost
+  # port: 5432
+  # name: phishingkit_db
+  # user: phishingkit_user
+  # password: "YOUR_DB_PASSWORD"
+
+# Reporting Configuration
+reporting:
+  output_dir: reports/
+  formats:
+    - html
+    - json
+    - pdf
+  include_screenshots: true
+  max_report_size: 50MB
+
+# API Configuration
+api:
+  host: 0.0.0.0
+  port: 8000
+  workers: 4
+  rate_limit: 100/hour
+  token_expiration: 24h
+  cors_origins:
+    - http://localhost:3000
+    - http://localhost:8080
+
+# MISP Integration
+misp:
+  url: "YOUR_MISP_URL"
+  api_key: "YOUR_MISP_API_KEY"
+  verify_ssl: true
+  publish_events: false
+
+# Detection Configuration
+detection:
+  # Score thresholds for classification
+  score_thresholds:
+    low: 30
+    medium: 60
+    high: 80
+  
+  # Custom detection rules
+  custom_rules:
+    enabled: true
+    path: config/custom_rules/ 
