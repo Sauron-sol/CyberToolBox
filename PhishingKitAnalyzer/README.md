@@ -110,6 +110,3 @@ PhishingKitAnalyzer/
 └── docs/              # Documentation
 ```
 
-## Security
-
-To report a security vulnerability, please contact us directly rather than opening a public ticket.
