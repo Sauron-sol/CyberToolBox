@@ -115,6 +115,19 @@ An automated phishing kit analysis tool with advanced features:
 
 [View project →](./PhishingKitAnalyzer/)
 
+### 11. XSS Hunter Pro 🕷️
+Advanced framework for automated XSS (Cross-Site Scripting) vulnerability detection and analysis:
+- Modern XSS payload detection and testing
+- WAF detection and bypass capabilities
+- Contextual DOM analysis
+- Parallel testing and real-time vulnerability detection
+- Comprehensive reporting (HTML/PDF/JSON)
+- Risk assessment and visualization
+- Secure payload management
+- Cross-platform support (Python 3.9+)
+
+[View project →](./XSSHunterPro/)
+
 ## Objectives
 
 This toolbox aims to:
